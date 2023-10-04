@@ -12,6 +12,7 @@ const encryptPassword = (password) => {
 }
 
 router.post('/signup', async (req, res) => {
+  console.log("trial");
   try {
     const user = new User({
       userName: req.body.username,
@@ -25,11 +26,12 @@ router.post('/signup', async (req, res) => {
 
     res.status(200).json({
       user: newUser,
-      message: 'Succes! User created!'
+      message: 'Succes! User created!',
+      token
     })
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      ERROR: error.message
     });
   }
 });
@@ -57,7 +59,7 @@ router.post('/login', async function (req, res) {
     });
   } catch (error) {
       res.status(500).json({
-        error: error.message
+        ERROR: error.message
       })
   }
 })
