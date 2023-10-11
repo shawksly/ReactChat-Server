@@ -20,7 +20,7 @@ router.post("/create", validateSession, async (req, res) => {
     });
 
     const newRoom = await room.save();
-    console.log(req.user);
+    // console.log(req.user);
 
     res.status(200).json({
       message: "New Room Created!",
@@ -33,9 +33,9 @@ router.post("/create", validateSession, async (req, res) => {
 });
 
 // get (show) room by id
-router.get("/show/:id", validateSession, async (req, res) => {
+router.get("/show/:roomId", validateSession, async (req, res) => {
   try {
-    const singleRoom = await Room.findOne({ _id: req.params.id })
+    const singleRoom = await Room.findOne({ _id: req.params.roomId })
     const user = await User.findById(singleRoom.owner);
 
     res.status(200).json({ found: singleRoom, owner: user })
@@ -61,18 +61,18 @@ router.get("/list", validateSession, async (req, res) => {
 });
 
 // update a room
-router.patch('/:id', validateSession, async (req, res) => {
+router.patch('/:roomId', validateSession, async (req, res) => {
   try {
-    let _id = req.params.id;
+    let _id = req.params.roomId;
     let owner = req.user.id;
 
-    console.log(_id);
-    console.log(owner);
+    // console.log(_id);
+    // console.log(owner);
 
     let updatedInfo = req.body;
 
     const updated = await Room.findOneAndUpdate({ _id, owner }, updatedInfo, { new: true });
-    console.log("222222", updated);
+    // console.log("!!!!!!!!!", updated);
 
     if (!updated)
       throw new Error("Invalid Room/User Combination");
@@ -88,16 +88,15 @@ router.patch('/:id', validateSession, async (req, res) => {
 });
 
 // delete a room
-router.delete ('/:id', validateSession, async function(req, res) {
+router.delete ('/:roomId', validateSession, async function(req, res) {
   try {
-    let { id } = req.params;
+    let { roomId } = req.params;
     let owner = req.user.id;
 
-    const deletedRoom = await Room.deleteOne({ _id: id, owner });
+    const deletedRoom = await Room.deleteOne({ _id: roomId, owner });
 
-    // TODO Need to check if this accounts for non-owner, and account for that. Only ownder can delete
     if (!deletedRoom.deletedCount)
-      throw new Error('Could not find or not owner of Room!');
+      throw new Error('Could not find room or not owner of Room!');
 
     res.status(200).json({
       message: 'Room Deleted!',
@@ -110,3 +109,6 @@ router.delete ('/:id', validateSession, async function(req, res) {
 })
 
 module.exports = router;
+
+// why need user?
+// how tell difference between not owner and can't be deleted
