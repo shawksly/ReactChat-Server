@@ -18,11 +18,15 @@ database.once("open", () => console.log(`Connected to ${MONGO}`));
 const user = require('./controllers/user.controller');
 const room = require('./controllers/room.controller');
 const validateSession = require('./middleware/validateSession');
+const rooms = require('./controllers/room.controller');
 
 app.use(express.json());
+
 // TODO add routes (app.use) that don't need to be validated
 app.use('/user', user);
 app.use(validateSession);
+app.use('/room', rooms);
+
 // TODO add routes (app.use) that do need to be validated
 app.use('/room', room);
 

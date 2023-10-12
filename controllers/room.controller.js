@@ -1,12 +1,7 @@
-const router = require('express').Router();
-
-// ^ in English, "cont router = whatever express is giving us (any file within a server can have module.export) using its router method"
-
-//! Controllers relate to URL, Models relate to Database (NOT Postman).
-
-const Room = require('../models/room.model');
-
-const jwt = require('jsonwebtoken');
+const router = require("express").Router();
+const Room = require("../models/room.model");
+const User = require("../models/user.model");
+const validateSession = require('../middleware/validateSession');
 
 function errorResponse(res, err) {
   res.status(500).json({
@@ -14,95 +9,106 @@ function errorResponse(res, err) {
   });
 };
 
-//? CREATE A ROOM
-
-router.post('/create', async (req, res) => {
+// create a room
+router.post("/create", validateSession, async (req, res) => {
   try {
     const room = new Room({
       title: req.body.title,
       description: req.body.description,
-      messages: req.body.messages,
-      ownerId: req.user
+      messages: [],
+      owner: req.user._id
     });
 
     const newRoom = await room.save();
+    // console.log(req.user);
 
     res.status(200).json({
-      message: "New Room created",
+      message: "New Room Created!",
       room: newRoom
     });
 
-    } catch (error) {
-      res.status(500).json({
-        ERROR: error.message
-      })
-    }});
-
-
-/* They'll all have TRY-CATCH statements */
-
-
-//? GET ONE ROOM (see pizza example (pizza controller))
-
-// .get
-
-/*
-router.get('/room/:id', async (req, res) => {
-  try {
-    const room = 
-
-  }
-})
-*/
-
-//? GET ALL ROOMS (see get all pizzas example (pizza controller))
-
-// .get
-
-//? UPDATE ONE ROOM (see pizza example (pizza controller))
-
-// .patch
-
-//? DELETE ONE ROOM (see pizza example (pizza controller))
-
-// .delete
-
-/*
-
-- npx nodemon
-
-- test things in POSTMAN
-
-- GitHub stuff.
-    - git branch (make sure I'm in room).
-    - git add .
-    - git commit -m "u6_04a completed room controller"
-    - get push origin room
-
-
-
-
-*/
-
-
-
-/*
-    const newUser = await user.save();
-
-    const token = jwt.sign({ id: newUser['_id']}, process.env.JWT, { expiresIn: "one day"})
-
-    res.status(200).json({
-      user: newUser,
-      message: 'Succes! User created!',
-      token
-    })
-  } catch (error) {
-    res.status(500).json({
-      ERROR: error.message
-    });
+  } catch (err) {
+    errorResponse(res, err);
   }
 });
 
-*/
+// get (show) room by id
+router.get("/show/:roomId", validateSession, async (req, res) => {
+  try {
+    const singleRoom = await Room.findOne({ _id: req.params.roomId })
+    const user = await User.findById(singleRoom.owner);
 
-module.exports = router
+    res.status(200).json({ found: singleRoom, owner: user })
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
+// get all rooms
+router.get("/list", validateSession, async (req, res) => {
+  try {
+    const getAllRooms = await Room.find();
+
+    getAllRooms.length > 0 ?
+      res.status(200).json({ getAllRooms })
+      :
+      res.status(404).json({ message: "No Rooms Found!" });
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
+// update a room
+router.patch('/:roomId', validateSession, async (req, res) => {
+  try {
+    let _id = req.params.roomId;
+    let owner = req.user.id;
+
+    // console.log(_id);
+    // console.log(owner);
+
+    let updatedInfo = req.body;
+
+    const updated = await Room.findOneAndUpdate({ _id, owner }, updatedInfo, { new: true });
+    // console.log("!!!!!!!!!", updated);
+
+    if (!updated)
+      throw new Error("Invalid Room/User Combination");
+    
+    res.status(200).json({
+      message: `${updated._id} Updated!`,
+      updated
+    });
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
+// delete a room
+router.delete ('/:roomId', validateSession, async function(req, res) {
+  try {
+    let { roomId } = req.params;
+    let owner = req.user.id;
+
+    const deletedRoom = await Room.deleteOne({ _id: roomId, owner });
+
+    if (!deletedRoom.deletedCount)
+      throw new Error('Could not find room or not owner of Room!');
+
+    res.status(200).json({
+      message: 'Room Deleted!',
+      deletedRoom
+    })
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+})
+
+module.exports = router;
+
+// why need user?
+// how tell difference between not owner and can't be deleted

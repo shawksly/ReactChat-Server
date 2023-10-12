@@ -4,13 +4,13 @@ const RoomSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   description: String,
   messages: Array,
-  ownerId: {
+  owner: {
     type: String,
-    required: true,
+    required: true
   },
 });
 

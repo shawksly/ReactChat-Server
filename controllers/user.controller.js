@@ -17,21 +17,21 @@ router.post('/signup', async (req, res) => {
     const user = new User({
       username: req.body.username,
       email: req.body.email,
-      password: bcrypt.hashSync(req.body.pass, 13)
+      password: bcrypt.hashSync(req.body.password, 13)
     });
 
     const newUser = await user.save();
 
-    const token = jwt.sign({ id: newUser['_id']}, process.env.JWT, { expiresIn: "1d"})
+    const token = jwt.sign({ id: newUser['_id']}, process.env.JWT, { expiresIn: "1 day"})
 
     res.status(200).json({
       user: newUser,
-      message: 'Succes! User created!',
+      message: 'Success! User created!',
       token
     })
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({
-      ERROR: error.message
+      ERROR: err.message
     });
   }
 });
@@ -46,9 +46,9 @@ router.post('/login', async function (req, res) {
 
     if (!user) throw new Error('Email or Password does not match');
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT, { expiresIn: 'one day'});
+    const token = jwt.sign({ id: user._id }, process.env.JWT, { expiresIn: '1 day'});
 
-    const passwordMatch = await bcrypt.compare(pass, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) throw new Error('Email or Password does not match');
 
@@ -57,9 +57,9 @@ router.post('/login', async function (req, res) {
       message: 'Succesfful Login!',
       token
     });
-  } catch (error) {
+  } catch (err) {
       res.status(500).json({
-        ERROR: error.message
+        ERROR: err.message
       })
   }
 })

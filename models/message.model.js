@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ModelSchema = new mongoose.Schema({
+const MessageSchema = new mongoose.Schema({
   date: {
     type: String,
     required: true
@@ -19,4 +19,4 @@ const ModelSchema = new mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('Message', ModelSchema);
+module.exports = mongoose.model('Message', MessageSchema);
