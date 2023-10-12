@@ -12,7 +12,6 @@ const encryptPassword = (password) => {
 }
 
 router.post('/signup', async (req, res) => {
-  console.log("trial");
   try {
     const user = new User({
       username: req.body.username,

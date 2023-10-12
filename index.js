@@ -29,3 +29,15 @@ app.use('/room', rooms);
 // TODO add routes (app.use) that do need to be validated
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+
+//top of page, line 11
+function test(res, err) {
+    return res + err;
+};
+
+// line 36
+res="this is the response";
+err="this is the error";
+
+test(res, err);
+console.log(test(res, err));

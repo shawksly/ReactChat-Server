@@ -109,6 +109,3 @@ router.delete ('/:roomId', validateSession, async function(req, res) {
 })
 
 module.exports = router;
-
-// why need user?
-// how tell difference between not owner and can't be deleted
