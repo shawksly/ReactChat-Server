@@ -115,4 +115,3 @@ router.delete ('/:roomId', validateSession, async function(req, res) {
 })
 
 module.exports = router;
-
