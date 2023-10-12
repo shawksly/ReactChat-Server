@@ -15,14 +15,14 @@ router.post('/signup', async (req, res) => {
   console.log("trial");
   try {
     const user = new User({
-      userName: req.body.username,
+      username: req.body.username,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.pass, 13)
     });
 
     const newUser = await user.save();
 
-    const token = jwt.sign({ id: newUser['_id']}, process.env.JWT, { expiresIn: "one day"})
+    const token = jwt.sign({ id: newUser['_id']}, process.env.JWT, { expiresIn: "1d"})
 
     res.status(200).json({
       user: newUser,
