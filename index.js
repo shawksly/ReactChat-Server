@@ -16,7 +16,6 @@ database.once("open", () => console.log(`Connected to ${MONGO}`));
 // TODO require controllers
 
 const user = require('./controllers/user.controller');
-const room = require('./controllers/room.controller');
 const validateSession = require('./middleware/validateSession');
 const rooms = require('./controllers/room.controller');
 
