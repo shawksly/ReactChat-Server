@@ -66,6 +66,21 @@ router.get("/list", validateSession, async (req, res) => {
   }
 });
 
+// get all rooms per owner
+router.get("/list/owner/:ownerId", validateSession, async (req, res) => {
+  try {
+    const getOwnerRooms = await Room.find({ owner: req.params.ownerId });
+
+    getOwnerRooms.length > 0 ?
+      res.status(200).json({ getOwnerRooms })
+      :
+      res.status(404).json({ message: "No Rooms Found!" });
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
 // update a room
 router.patch('/:roomId', validateSession, async (req, res) => {
   try {
