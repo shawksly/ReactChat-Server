@@ -70,6 +70,21 @@ router.get("/show/:roomId", validateSession, async (req, res) => {
   }
 });
 
+// get all messages per owner
+router.get("/show/owner/:ownerId", validateSession, async (req, res) => {
+  try {
+    const getOwnerMessages = await Message.find({ owner: req.params.ownerId });
+
+    getOwnerMessages.length > 0 ?
+      res.status(200).json({ getOwnerMessages })
+      :
+      res.status(404).json({ message: "No Messages Found!" });
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
 // update message
 router.patch("/:roomId/:messageId", validateSession, async (req, res) => {
   try {
