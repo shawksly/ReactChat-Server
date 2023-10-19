@@ -32,13 +32,13 @@ router.post("/create", validateSession, async (req, res) => {
       room: newRoom
     });
 
-// We add a 'catch' section here to display errors. I don't 
+// We add a 'catch' section here to display errors.
   } catch (err) {
     errorResponse(res, err);
   }
 });
 
-// We're attempting to show a room's by its id. 
+// We're attempting to show a room by its id. 
 router.get("/show/:roomId", validateSession, async (req, res) => {
   try {
     const singleRoom = await Room.findOne({ _id: req.params.roomId })
