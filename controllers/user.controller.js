@@ -6,13 +6,20 @@ const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 
+const validateSession = require('../middleware/validateSession');
+
+function errorResponse(res, err) {
+  res.status(500).json({
+    ERROR: err.message,
+  });
+};
+
 const encryptPassword = (password) => {
   const encrypt = bcrypt.hashSync(password, 10);
   console.log('ENCRYPT:', encrypt);
 }
 
 router.post('/signup', async (req, res) => {
-  console.log("trial");
   try {
     const user = new User({
       username: req.body.username,
@@ -63,5 +70,58 @@ router.post('/login', async function (req, res) {
       })
   }
 })
+
+// update a user
+router.patch('/:userId', validateSession, async (req, res) => {
+  try {
+    let _id = req.params.userId;
+    let owner = req.user.id;
+
+    let updatedInfo = req.body;
+
+    if (_id !== owner)
+      throw new Error("Can't change another user's information");
+
+    if (updatedInfo.password)
+      updatedInfo.password = bcrypt.hashSync(updatedInfo.password, 13);
+
+    const updated = await User.findOneAndUpdate({_id}, updatedInfo, {new: true});
+
+    if (!updated)
+      throw new Error("Invalid User")
+
+    res.status(200).json({
+      message: `User ${updated._id} Updated!`,
+      updated
+    });
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
+
+// delete a user
+router.delete('/:userId', validateSession, async (req, res) => {
+  try {
+    let { userId } = req.params;
+    let owner = req.user.id;
+
+    if (userId !== owner)
+      throw new Error("Can't delete another user's information");
+console.log('1');
+    const deletedUser = await User.deleteOne({_id: userId});
+console.log('2');
+    if (!deletedUser.deletedCount)
+      throw new Error('Invalid User!')
+
+    res.status(200).json({
+      message: 'User Deleted!',
+      deletedUser
+    })
+
+  } catch (err) {
+    errorResponse(res, err);
+  }
+});
 
 module.exports = router;

@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "5e7ed9c1-f84a-49a8-8932-bfa7e57e801c",
+		"name": "Chat CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29537728"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testname4\",\r\n    \"email\": \"test4@email.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/user/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testname2\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Room",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"testroom10\",\r\n    \"description\": \"testdescription\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/room/create",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Room By ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/room/show/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						"show",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "652bc49f1fad732f76821a00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Rooms",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/room/list",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Room By ID",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"testroom4-edit\",\r\n    \"description\": \"testdescription-edit\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/room/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "652bc49f1fad732f76821a00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Room By ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/room/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "652bc49f1fad732f76821a00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Message Per Room ID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"message4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/message/create/:roomId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"message",
+						"create",
+						":roomId"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "652bc49f1fad732f76821a00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Messages",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/message/show/:roomId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"message",
+						"show",
+						":roomId"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "652bc49f1fad732f76821a00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Message By Room and Message ID",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"message1-edited\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/message/:roomId/:messageId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"message",
+						":roomId",
+						":messageId"
+					],
+					"variable": [
+						{
+							"key": "roomId",
+							"value": "652bc49f1fad732f76821a00"
+						},
+						{
+							"key": "messageId",
+							"value": "652bc69f3e78f815ca93a46c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Message By Room and Message ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/message/:messageId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"message",
+						":messageId"
+					],
+					"variable": [
+						{
+							"key": "messageId",
+							"value": "652bc69f3e78f815ca93a46c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User By ID",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testname2\",\r\n    \"email\": \"test2@email.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/user/:userId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "6529f7d81aa5efb066609b34"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User By ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/user/:userId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "652d128c7aeb463247cc16a1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Room By Owner ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/room/list/owner/:ownerId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"room",
+						"list",
+						"owner",
+						":ownerId"
+					],
+					"variable": [
+						{
+							"key": "ownerId",
+							"value": "6529f7d81aa5efb066609b34"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Messages By Owner ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "{{authorization}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4000/message/show/owner/:ownerId",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"message",
+						"show",
+						"owner",
+						":ownerId"
+					],
+					"variable": [
+						{
+							"key": "ownerId",
+							"value": "6529f7d81aa5efb066609b34"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

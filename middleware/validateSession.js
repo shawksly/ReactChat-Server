@@ -14,8 +14,9 @@ async function validateSession(req, res, next) {
     req.user = user;
 
     return next();
-  } catch (err) {}
-  res.status(403).json({ ERROR: err.message });
+  } catch (err) {
+    res.status(403).json({ ERROR: err.message });
+  }
 }
 
 module.exports = validateSession;
