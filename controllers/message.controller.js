@@ -18,7 +18,8 @@ router.post("/create/:roomId", validateSession, async (req, res) => {
       date: Date(),
       text: req.body.text,
       owner: req.user._id,
-      room: req.params.roomId
+      room: req.params.roomId,
+      username: req.user.username
     })
 
     const targetRoom = await Room.findOne({ _id: req.params.roomId });

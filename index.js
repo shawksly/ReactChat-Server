@@ -21,6 +21,7 @@ const rooms = require('./controllers/room.controller');
 const messages = require('./controllers/message.controller')
 
 app.use(express.json());
+app.use(require('cors')());
 
 // TODO add routes (app.use) that don't need to be validated
 app.use('/user', user);

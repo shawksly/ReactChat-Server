@@ -108,9 +108,9 @@ router.delete('/:userId', validateSession, async (req, res) => {
 
     if (userId !== owner)
       throw new Error("Can't delete another user's information");
-console.log('1');
+    
     const deletedUser = await User.deleteOne({_id: userId});
-console.log('2');
+
     if (!deletedUser.deletedCount)
       throw new Error('Invalid User!')
 
