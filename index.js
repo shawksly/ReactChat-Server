@@ -7,11 +7,22 @@ const mongoose = require("mongoose");
 
 const { PORT, MONGO } = process.env;
 
-mongoose.connect(`${MONGO}/ChatServer`);
+// mongoose.connect(`${MONGO}`);
+// https://stackoverflow.com/questions/57337218/how-to-connect-to-specific-database-with-mongoose-and-node
+mongoose
+  .connect(MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'ReactChat-Database',
+  })
+  .then(() => {
+    console.log('Connected to the Database.');
+  })
+  .catch(err => console.error(err));
 
 const database = mongoose.connection;
 
-database.once("open", () => console.log(`Connected to ${MONGO}`));
+database.once("open", () => console.log(`Connected to MongoDB!`));
 
 // TODO require controllers
 
