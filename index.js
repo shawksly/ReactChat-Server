@@ -5,7 +5,7 @@ const app = express();
 
 const mongoose = require("mongoose");
 
-const { PORT, MONGO } = process.env;
+const { PORT, HOST, MONGO } = process.env;
 
 // mongoose.connect(`${MONGO}`);
 // https://stackoverflow.com/questions/57337218/how-to-connect-to-specific-database-with-mongoose-and-node
@@ -42,4 +42,4 @@ app.use(validateSession);
 app.use('/room', rooms);
 app.use('/message', messages)
 
-app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+app.listen(PORT, HOST, () => console.log(`App is listening on port ${PORT}`));
